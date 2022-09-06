@@ -3,3 +3,6 @@ out/sq_checker
 out/sq_checker_test
 out/*.log
 out/y.*
+lib/textui/*.o
+lib/embUnit/*.o
+lib/*.a
