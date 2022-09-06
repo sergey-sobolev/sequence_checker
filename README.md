@@ -77,7 +77,7 @@ The sequence checker understands the following arguments:
 * --? - ultra short help
 * -v - verbose output
 * -vv - very verbose output
-* --cfg - configuration file (will be parsed before checking sequence), e.g. one can split definitions of nodes and paths
+* -cfg - configuration file (will be parsed before checking sequence), e.g. one can split definitions of nodes and paths
 * \<file name\> - input file with sequences to be checked
 
 Alternatively if no file specified sequences can be taken from standard input. To end input on keyboard press Ctrl-D, then check the command execution status (`echo $?`) as with the tests.
