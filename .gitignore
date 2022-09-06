@@ -1,0 +1,5 @@
+out/*.o
+out/sq_checker
+out/sq_checker_test
+out/*.log
+out/y.*

@@ -1,0 +1,8 @@
+def A;
+def B;
+def C;
+def D;
+def E;
+
+allowed=A->B->[C->D(100)]|E->#;
+executed=A->B->E->#;
