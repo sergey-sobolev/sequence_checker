@@ -29,8 +29,8 @@ static void tearDown(void)
 static void test_sq_init(void)
 {
 	//TEST_FAIL("no implementation");
-    allowed_path = (SC_PATH*)-1;
-    executed_path = (SC_PATH*)0xAA;
+    allowed_path = (SQ_PATH*)-1;
+    executed_path = (SQ_PATH*)0xAA;
     sq_init();
     TEST_ASSERT_NULL( allowed_path );
     TEST_ASSERT_NULL( executed_path );

@@ -3,8 +3,8 @@
  * @brief Initialization functions prototypes.
  */
 
-#ifndef SC_INIT_HDR
-#define SC_INIT_HDR
+#ifndef SQ_INIT_HDR
+#define SQ_INIT_HDR
 
 int  sq_init( void );
 void sq_cleanup( void );
@@ -15,4 +15,4 @@ void sq_cleanup( void );
  * @brief Supported token types definitions and main parser type (yylval) definition.
  */
 
-#endif // SC_INIT_HDR
+#endif // SQ_INIT_HDR

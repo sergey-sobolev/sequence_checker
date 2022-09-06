@@ -4,7 +4,7 @@
 */
 #include <string.h>     // sprintf, strcpy
 #include "sq_debug.h"   // DEBUG
-#include "sq_checker.h" // SC_VERSION
+#include "sq_checker.h" // SQ_VERSION
 #include "sq_options.h"
 
 char sq_file_name[256] = {0}; //!< input file name container, initialized in process_options
@@ -35,7 +35,7 @@ int process_options( int argc, char *argv[] )
     {
         if ( strcmp( argv[argn], "--version" ) == 0 )
         {
-            printf( "States checker, version %s\n", SC_VERSION );
+            printf( "States checker, version %s\n", SQ_VERSION );
             return -1; // print version and exit
         }
         

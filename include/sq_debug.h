@@ -3,8 +3,8 @@
  * @brief Debug headers, functions and macroses.
  */
 
-#ifndef SC_DEBUG_HDR
-#define SC_DEBUG_HDR
+#ifndef SQ_DEBUG_HDR
+#define SQ_DEBUG_HDR
 
 #include <stdio.h>  // printf
 #include <assert.h> // assert macro
@@ -28,4 +28,4 @@ extern int verbose_output;
 #define D2(A) 
 #endif
 
-#endif // SC_DEBUG_HDR
+#endif // SQ_DEBUG_HDR

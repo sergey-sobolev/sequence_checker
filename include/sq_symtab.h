@@ -3,8 +3,8 @@
  * @brief Symbol table related types definitions and functions prototypes.
  */
 
-#ifndef SC_SYMTAB_HDR
-#define SC_SYMTAB_HDR
+#ifndef SQ_SYMTAB_HDR
+#define SQ_SYMTAB_HDR
 
 
 /// Record structure in the symbol table
@@ -45,4 +45,4 @@ extern char *emalloc( unsigned n );
 
 char* sq_id_to_str( int type );
 
-#endif // SC_SYMTAB_HDR
+#endif // SQ_SYMTAB_HDR

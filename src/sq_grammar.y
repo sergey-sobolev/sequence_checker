@@ -32,7 +32,7 @@
 
 %union
 {
-    SC_PATH *path;
+    SQ_PATH *path;
     SYMBOL  *sym;
     double   dnum;
 }
@@ -234,7 +234,7 @@ int yylex( void )
     if( (c == '_') || isalpha( c ) || c == '#' )
     {
         SYMBOL   *sp;
-        SC_STATE *st;
+        SQ_STATE *st;
         char sbuf[256], *p = sbuf;
 
         do

@@ -5,7 +5,7 @@
 #include "sq_checker.h" // sq_errors  
 #include "sq_init.h"
 #include "sq_debug.h"   // assert
-#include "sq_code.h"    // SC_PATH
+#include "sq_code.h"    // SQ_PATH
 #include "sq_symtab.h"  // mem list funcs
 #include "y.tab.h"      // INIT, SYNC, etc
 
@@ -35,8 +35,8 @@ int sq_init( void )
     int i;
     SYMBOL *sym;
     
-    allowed_path  = (SC_PATH*)0;
-    executed_path = (SC_PATH*)0;
+    allowed_path  = (SQ_PATH*)0;
+    executed_path = (SQ_PATH*)0;
 	sq_errors     = 0;
     init_mem_list();
     
@@ -66,6 +66,6 @@ int sq_init( void )
 void sq_cleanup( void )
 {
     free_mem_list();
-    allowed_path  = (SC_PATH*)0;
-    executed_path = (SC_PATH*)0;
+    allowed_path  = (SQ_PATH*)0;
+    executed_path = (SQ_PATH*)0;
 } // sq_cleanup

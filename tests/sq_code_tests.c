@@ -33,8 +33,8 @@ static void tearDown(void)
  */
 static void test_sq_link_paths(void)
 {
-    SC_STATE *st1, *st2, *st3, *st4;
-    SC_PATH  *path1, *path2, *tmpp;
+    SQ_STATE *st1, *st2, *st3, *st4;
+    SQ_PATH  *path1, *path2, *tmpp;
     st1 = sq_create_state( 1 );
     st2 = sq_create_state( 2 );
     st3 = sq_create_state( 3 );
@@ -56,8 +56,8 @@ static void test_sq_finalize_allowed_path(void)
 {
 //	TEST_FAIL("no implementation");
     int res = 0;
-    SC_STATE *st1;
-    SC_PATH  *path1;
+    SQ_STATE *st1;
+    SQ_PATH  *path1;
     st1 = sq_create_state( 1 );
     path1 = NULL; 
 
@@ -74,9 +74,9 @@ static void test_sq_check_executed_path(void)
 {
 //	TEST_FAIL("no implementation");
     int res = 0;
-    SC_STATE *st1, *st2, *st3, *st4;
-	SC_PATH  *pst1, *pst2, *pst3, *pst4;
-    SC_PATH  *path1, *path2, *tmpp;
+    SQ_STATE *st1, *st2, *st3, *st4;
+	SQ_PATH  *pst1, *pst2, *pst3, *pst4;
+    SQ_PATH  *path1, *path2, *tmpp;
     st1 = sq_create_state( 1 );
     st2 = sq_create_state( 2 );
     st3 = sq_create_state( 3 );
@@ -124,8 +124,8 @@ static void test_sq_check_executed_path(void)
  */
 static void test_sq_set_state_timeout(void)
 {
-    SC_STATE *st;
-    SC_PATH  *ph, *ph1;
+    SQ_STATE *st;
+    SQ_PATH  *ph, *ph1;
     st  = sq_create_state( 1 );
     TEST_ASSERT( st != NULL );
     ph  = sq_create_new_path( st );
@@ -142,7 +142,7 @@ static void test_sq_set_state_timeout(void)
 static void test_sq_create_state(void)
 {
 //	TEST_FAIL("no implementation");
-    SC_STATE *st;
+    SQ_STATE *st;
     st = sq_create_state( 1 );
     TEST_ASSERT( st != NULL );
     TEST_ASSERT( st->id  == 1 );
@@ -158,8 +158,8 @@ static void test_sq_create_state(void)
 static void test_sq_create_new_path(void)
 {
 //	TEST_FAIL("no implementation");
-    SC_STATE *st = sq_create_state(1);
-    SC_PATH  *np = sq_create_new_path( st );
+    SQ_STATE *st = sq_create_state(1);
+    SQ_PATH  *np = sq_create_new_path( st );
     TEST_ASSERT( np->entp->state == st );
     TEST_ASSERT( np->paths == NULL );
 }
@@ -195,11 +195,11 @@ static void test_sq_create_new_path(void)
 static void test_sq_construct_path(void)
 {
     //int res;
-    SC_STATE *stA;
-    SC_PATH  *ptA;
-    SC_STATE *stB;
-    SC_PATH  *ptB;
-    SC_PATH  *ptM;
+    SQ_STATE *stA;
+    SQ_PATH  *ptA;
+    SQ_STATE *stB;
+    SQ_PATH  *ptB;
+    SQ_PATH  *ptM;
 	//TEST_FAIL("no implementation");
     // 1. describe path A
     {
@@ -277,7 +277,7 @@ static void test_sq_construct_path(void)
         // unique set of objects for each incoming state
         // Result must be: a path with entry point A and end point B
         // Note: sq_link_path modifies first argument: function links with it the second path
-        SC_PATH *ptL;
+        SQ_PATH *ptL;
         // link all possible paths from A with path B
         ptL = sq_link_paths( ptA, ptB );
         TEST_ASSERT( ptL == ptA );
@@ -291,14 +291,14 @@ static void test_sq_construct_path(void)
     // 4. describe path A->B->C
     {
         // create the path
-        SC_STATE *st4A = sq_create_state( 1 );
-        SC_STATE *st4B = sq_create_state( 2 );
-        SC_STATE *st4C = sq_create_state( 3 );
-        SC_PATH  *pt4A = sq_create_new_path( st4A );
-        SC_PATH  *pt4B = sq_create_new_path( st4B );
-        SC_PATH  *pt4C = sq_create_new_path( st4C );
-        SC_PATH  *pt4LBC  = sq_link_paths( pt4B, pt4C );
-        SC_PATH  *pt4LABC = sq_link_paths( pt4A, pt4LBC );
+        SQ_STATE *st4A = sq_create_state( 1 );
+        SQ_STATE *st4B = sq_create_state( 2 );
+        SQ_STATE *st4C = sq_create_state( 3 );
+        SQ_PATH  *pt4A = sq_create_new_path( st4A );
+        SQ_PATH  *pt4B = sq_create_new_path( st4B );
+        SQ_PATH  *pt4C = sq_create_new_path( st4C );
+        SQ_PATH  *pt4LBC  = sq_link_paths( pt4B, pt4C );
+        SQ_PATH  *pt4LABC = sq_link_paths( pt4A, pt4LBC );
         
         TEST_ASSERT( pt4LBC == pt4B );
         TEST_ASSERT( pt4LABC == pt4A );
@@ -317,14 +317,14 @@ static void test_sq_construct_path(void)
     // 5. describe path A->B|C
     {
         // create the path
-        SC_STATE *st5A = sq_create_state( 1 );
-        SC_STATE *st5B = sq_create_state( 2 );
-        SC_STATE *st5C = sq_create_state( 3 );
-        SC_PATH  *pt5A = sq_create_new_path( st5A );
-        SC_PATH  *pt5B = sq_create_new_path( st5B );
-        SC_PATH  *pt5C = sq_create_new_path( st5C );
-        SC_PATH  *pt5M = sq_merge_paths( pt5B, pt5C );
-        SC_PATH  *pt5L = sq_link_paths( pt5A, pt5M );
+        SQ_STATE *st5A = sq_create_state( 1 );
+        SQ_STATE *st5B = sq_create_state( 2 );
+        SQ_STATE *st5C = sq_create_state( 3 );
+        SQ_PATH  *pt5A = sq_create_new_path( st5A );
+        SQ_PATH  *pt5B = sq_create_new_path( st5B );
+        SQ_PATH  *pt5C = sq_create_new_path( st5C );
+        SQ_PATH  *pt5M = sq_merge_paths( pt5B, pt5C );
+        SQ_PATH  *pt5L = sq_link_paths( pt5A, pt5M );
         TEST_ASSERT( pt5A->entp->state == st5A );
         TEST_ASSERT_NOT_NULL( pt5M );
         TEST_ASSERT_NOT_NULL( pt5L );
@@ -344,20 +344,20 @@ static void test_sq_construct_path(void)
     }
     // 6. describe path A->[B->C]|[D->E]
     {
-        SC_STATE *st6A = sq_create_state( 1 );
-        SC_STATE *st6B = sq_create_state( 2 );
-        SC_STATE *st6C = sq_create_state( 3 );
-        SC_STATE *st6D = sq_create_state( 4 );
-        SC_STATE *st6E = sq_create_state( 5 );
-        SC_PATH  *pt6A = sq_create_new_path( st6A );
-        SC_PATH  *pt6B = sq_create_new_path( st6B );
-        SC_PATH  *pt6C = sq_create_new_path( st6C );
-        SC_PATH  *pt6D = sq_create_new_path( st6D );
-        SC_PATH  *pt6E = sq_create_new_path( st6E );
-        SC_PATH  *pt6LBC = sq_link_paths( pt6B, pt6C );
-        SC_PATH  *pt6LDE = sq_link_paths( pt6D, pt6E );
-        SC_PATH  *pt6MBCDE = sq_merge_paths( pt6LBC, pt6LDE );
-        SC_PATH  *pt6R   = sq_link_paths( pt6A, pt6MBCDE );
+        SQ_STATE *st6A = sq_create_state( 1 );
+        SQ_STATE *st6B = sq_create_state( 2 );
+        SQ_STATE *st6C = sq_create_state( 3 );
+        SQ_STATE *st6D = sq_create_state( 4 );
+        SQ_STATE *st6E = sq_create_state( 5 );
+        SQ_PATH  *pt6A = sq_create_new_path( st6A );
+        SQ_PATH  *pt6B = sq_create_new_path( st6B );
+        SQ_PATH  *pt6C = sq_create_new_path( st6C );
+        SQ_PATH  *pt6D = sq_create_new_path( st6D );
+        SQ_PATH  *pt6E = sq_create_new_path( st6E );
+        SQ_PATH  *pt6LBC = sq_link_paths( pt6B, pt6C );
+        SQ_PATH  *pt6LDE = sq_link_paths( pt6D, pt6E );
+        SQ_PATH  *pt6MBCDE = sq_merge_paths( pt6LBC, pt6LDE );
+        SQ_PATH  *pt6R   = sq_link_paths( pt6A, pt6MBCDE );
         // check subpaths
         // check pt6LBC
         TEST_ASSERT( pt6B->entp->state->path == pt6LBC );
@@ -386,23 +386,23 @@ static void test_sq_construct_path(void)
     }
     // 7. describe path A->[B->C]|[D->E]->F
     {
-        SC_STATE *st7A = sq_create_state( 1 );
-        SC_STATE *st7B = sq_create_state( 2 );
-        SC_STATE *st7C = sq_create_state( 3 );
-        SC_STATE *st7D = sq_create_state( 4 );
-        SC_STATE *st7E = sq_create_state( 5 );
-        SC_STATE *st7F = sq_create_state( 6 );
-        SC_PATH  *pt7A = sq_create_new_path( st7A );
-        SC_PATH  *pt7B = sq_create_new_path( st7B );
-        SC_PATH  *pt7C = sq_create_new_path( st7C );
-        SC_PATH  *pt7D = sq_create_new_path( st7D );
-        SC_PATH  *pt7E = sq_create_new_path( st7E );
-        SC_PATH  *pt7F = sq_create_new_path( st7F );
-        SC_PATH  *pt7LBC = sq_link_paths( pt7B, pt7C );
-        SC_PATH  *pt7LDE = sq_link_paths( pt7D, pt7E );
-        SC_PATH  *pt7MBCDE = sq_merge_paths( pt7LBC, pt7LDE );
-        SC_PATH  *pt7LBCDEF = sq_link_paths( pt7MBCDE, pt7F );
-        SC_PATH  *pt7R   = sq_link_paths( pt7A, pt7LBCDEF );
+        SQ_STATE *st7A = sq_create_state( 1 );
+        SQ_STATE *st7B = sq_create_state( 2 );
+        SQ_STATE *st7C = sq_create_state( 3 );
+        SQ_STATE *st7D = sq_create_state( 4 );
+        SQ_STATE *st7E = sq_create_state( 5 );
+        SQ_STATE *st7F = sq_create_state( 6 );
+        SQ_PATH  *pt7A = sq_create_new_path( st7A );
+        SQ_PATH  *pt7B = sq_create_new_path( st7B );
+        SQ_PATH  *pt7C = sq_create_new_path( st7C );
+        SQ_PATH  *pt7D = sq_create_new_path( st7D );
+        SQ_PATH  *pt7E = sq_create_new_path( st7E );
+        SQ_PATH  *pt7F = sq_create_new_path( st7F );
+        SQ_PATH  *pt7LBC = sq_link_paths( pt7B, pt7C );
+        SQ_PATH  *pt7LDE = sq_link_paths( pt7D, pt7E );
+        SQ_PATH  *pt7MBCDE = sq_merge_paths( pt7LBC, pt7LDE );
+        SQ_PATH  *pt7LBCDEF = sq_link_paths( pt7MBCDE, pt7F );
+        SQ_PATH  *pt7R   = sq_link_paths( pt7A, pt7LBCDEF );
         // copy all checks from 6: additionally check if st7F is a normal successor
         // check subpaths
         // check pt7LBC

@@ -6,3 +6,4 @@ out/y.*
 lib/textui/*.o
 lib/embUnit/*.o
 lib/*.a
+docs/*.log

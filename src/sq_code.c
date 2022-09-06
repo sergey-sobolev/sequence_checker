@@ -9,8 +9,8 @@
 #include "y.tab.h"     // VARSTATE
 
 
-SC_PATH *allowed_path;  //!< pointer to the allowed path description, set in sq_finalize_allowed_path
-SC_PATH *executed_path; //!< pointer to the executed path description, set in sq_check_executed_path
+SQ_PATH *allowed_path;  //!< pointer to the allowed path description, set in sq_finalize_allowed_path
+SQ_PATH *executed_path; //!< pointer to the executed path description, set in sq_check_executed_path
 
 
 /** Adds state to the sequence list
@@ -19,15 +19,15 @@ SC_PATH *executed_path; //!< pointer to the executed path description, set in sq
  * \return modified list
  * \note list is modified!
  */
-SC_SEQUENCE* sq_append_list_with_state( SC_SEQUENCE *list, SC_STATE *state )
+SQ_SEQUENCE* sq_append_list_with_state( SQ_SEQUENCE *list, SQ_STATE *state )
 {
-    SC_SEQUENCE *new_elem;
-    SC_SEQUENCE *s;
+    SQ_SEQUENCE *new_elem;
+    SQ_SEQUENCE *s;
 
     if ( !state )
         return list;
 
-    new_elem = (SC_SEQUENCE*)emalloc( sizeof(SC_SEQUENCE) );
+    new_elem = (SQ_SEQUENCE*)emalloc( sizeof(SQ_SEQUENCE) );
     new_elem->state = state;
     new_elem->next = new_elem->prev = NULL;
 
@@ -58,9 +58,9 @@ SC_SEQUENCE* sq_append_list_with_state( SC_SEQUENCE *list, SC_STATE *state )
  * \return merged list
  * \note list1 is modified!
  */
-SC_SEQUENCE* sq_merge_lists( SC_SEQUENCE *list1, SC_SEQUENCE *list2 )
+SQ_SEQUENCE* sq_merge_lists( SQ_SEQUENCE *list1, SQ_SEQUENCE *list2 )
 {
-    SC_SEQUENCE *el;
+    SQ_SEQUENCE *el;
 
     if ( !list1 )
         return list2;
@@ -91,11 +91,11 @@ SC_SEQUENCE* sq_merge_lists( SC_SEQUENCE *list1, SC_SEQUENCE *list2 )
  * \param path2 second path
  * \return merged path (a new one)
  */
-SC_PATH *sq_merge_paths( SC_PATH *path1, SC_PATH *path2 )
+SQ_PATH *sq_merge_paths( SQ_PATH *path1, SQ_PATH *path2 )
 {
-    SC_PATH *merged_path = sq_create_new_path( NULL );
-    SC_PATHS *pso; //< pointer to paths element of original path 
-    SC_PATHS *psm; //< pointer to paths element of the merged path 
+    SQ_PATH *merged_path = sq_create_new_path( NULL );
+    SQ_PATHS *pso; //< pointer to paths element of original path 
+    SQ_PATHS *psm; //< pointer to paths element of the merged path 
     merged_path->entp = sq_merge_lists( path1->entp, path2->entp );
     merged_path->endp = sq_merge_lists( path1->endp, path2->endp );
     D2( printf( "Merging two paths\n" ) );
@@ -105,7 +105,7 @@ SC_PATH *sq_merge_paths( SC_PATH *path1, SC_PATH *path2 )
     psm = NULL;
     while ( pso )
     {
-        SC_PATHS *psel = sq_create_new_paths_item( pso->path );
+        SQ_PATHS *psel = sq_create_new_paths_item( pso->path );
         if ( psm )
             psm->next = psel;
         psm = psel;    
@@ -116,7 +116,7 @@ SC_PATH *sq_merge_paths( SC_PATH *path1, SC_PATH *path2 )
     pso = path2->paths;
     while ( pso )
     {
-        SC_PATHS *psel = sq_create_new_paths_item( pso->path );
+        SQ_PATHS *psel = sq_create_new_paths_item( pso->path );
         if ( psm )
             psm->next = psel;
         psm = psel;    
@@ -138,9 +138,9 @@ SC_PATH *sq_merge_paths( SC_PATH *path1, SC_PATH *path2 )
  * \param next successor
  * \return Pointer to the result path.
 */
-SC_PATH* sq_link_paths( SC_PATH *this, SC_PATH *next )
+SQ_PATH* sq_link_paths( SQ_PATH *this, SQ_PATH *next )
 {
-    SC_PATH *pn;
+    SQ_PATH *pn;
     //D( printf( "%s dummy: ok\n", __FUNCTION__ ) );
     if ( ! this )
         return next;
@@ -151,7 +151,7 @@ SC_PATH* sq_link_paths( SC_PATH *this, SC_PATH *next )
     // traverse all end points of the left path and the path 'next' as a successor. 
     assert( this->endp );
     {
-        SC_SEQUENCE *st = this->endp;
+        SQ_SEQUENCE *st = this->endp;
         while ( st )
         {
             pn = st->state->path;
@@ -187,7 +187,7 @@ SC_PATH* sq_link_paths( SC_PATH *this, SC_PATH *next )
  * \param ap pointer to allowed path
  * \return Path finalization result code, 0 if no error.
  */ 
-int sq_finalize_allowed_path( SC_PATH *ap )
+int sq_finalize_allowed_path( SQ_PATH *ap )
 {
     //D( printf( "%s dummy: ok\n", __FUNCTION__ ) );
     allowed_path = ap;
@@ -207,9 +207,9 @@ int sq_finalize_allowed_path( SC_PATH *ap )
  * \param timeout state time value, is used for timeout control
  * \return Pointer to the found path or NULL if nothing found
  */
-SC_PATH *sq_find_path_by_id( SC_PATHS *paths, int id, double timeout )
+SQ_PATH *sq_find_path_by_id( SQ_PATHS *paths, int id, double timeout )
 {
-    SC_PATH *path = NULL;
+    SQ_PATH *path = NULL;
 
     while ( paths )
     {
@@ -220,7 +220,7 @@ SC_PATH *sq_find_path_by_id( SC_PATHS *paths, int id, double timeout )
         paths = paths->next;
     }
 
-	return paths ? path : (SC_PATH*)0;
+	return paths ? path : (SQ_PATH*)0;
 } // sq_find_path_by_id
 
 
@@ -237,10 +237,10 @@ SC_PATH *sq_find_path_by_id( SC_PATHS *paths, int id, double timeout )
  * \return Pointer to the found state, NULL if not found
  * \note Timeout value is also checked if in a state it is not zero
  */
-SC_STATE *sq_find_state_by_id( SC_SEQUENCE *sequence, int type, double timeout )
+SQ_STATE *sq_find_state_by_id( SQ_SEQUENCE *sequence, int type, double timeout )
 {
-    SC_STATE *res = NULL;
-    SC_SEQUENCE *st = sequence;
+    SQ_STATE *res = NULL;
+    SQ_SEQUENCE *st = sequence;
     
     if ( ! sequence )
         return NULL;
@@ -277,13 +277,13 @@ SC_STATE *sq_find_state_by_id( SC_SEQUENCE *sequence, int type, double timeout )
  * \param targ path which might describe observed transitions
  * \return If targ path is possible in host, then 0, otherwise 1;
  */
-int sq_check_transitions( SC_PATH *host, SC_PATH *targ )
+int sq_check_transitions( SQ_PATH *host, SQ_PATH *targ )
 {
     int res = 0;
 
-    SC_PATH  *hp;
-    SC_PATH  *tp;
-    SC_STATE *st;
+    SQ_PATH  *hp;
+    SQ_PATH  *tp;
+    SQ_STATE *st;
 
     if ( ! host  || ! targ )
         return -1; // arguments can't be empty
@@ -327,7 +327,7 @@ int sq_check_transitions( SC_PATH *host, SC_PATH *targ )
  * \param ep pointer to executed path
  * \return Check result, 0 if no error
  */ 
-int sq_check_executed_path( SC_PATH *ep )
+int sq_check_executed_path( SQ_PATH *ep )
 {
     int error;
     error = sq_check_transitions( allowed_path, ep );
@@ -346,7 +346,7 @@ int sq_check_executed_path( SC_PATH *ep )
  * \param timeout timeout value (double), in milliseconds usually but can be scaled by user (all times respectively)
  * \return pointer to updated path(state)
  */
-SC_PATH* sq_set_state_timeout( SC_PATH* state, double timeout )
+SQ_PATH* sq_set_state_timeout( SQ_PATH* state, double timeout )
 {
     if ( !state )
         return state;
@@ -368,11 +368,11 @@ SC_PATH* sq_set_state_timeout( SC_PATH* state, double timeout )
  * \param path pointer to the path descriptor
  * \return Pointer to the created element 
  */
-SC_PATHS *sq_create_new_paths_item( SC_PATH *path )
+SQ_PATHS *sq_create_new_paths_item( SQ_PATH *path )
 {
-    SC_PATHS *np = (SC_PATHS*)emalloc( sizeof(SC_PATHS) );
+    SQ_PATHS *np = (SQ_PATHS*)emalloc( sizeof(SQ_PATHS) );
     assert( np );
-    memset( np, 0, sizeof(SC_PATHS) );
+    memset( np, 0, sizeof(SQ_PATHS) );
     np->path = path;
     return np;
 } // sq_create_new_paths_item
@@ -387,16 +387,16 @@ SC_PATHS *sq_create_new_paths_item( SC_PATH *path )
 /** Creates new path and initializes its state with the given pointer.
  *
  */
-SC_PATH* sq_create_new_path( SC_STATE* state )
+SQ_PATH* sq_create_new_path( SQ_STATE* state )
 {
-    SC_PATH*   np    = (SC_PATH*)emalloc( sizeof(SC_PATH) );
-    SC_SEQUENCE* nentp = (SC_SEQUENCE*)emalloc( sizeof(SC_SEQUENCE) );
-    SC_SEQUENCE* nendp = (SC_SEQUENCE*)emalloc( sizeof(SC_SEQUENCE) );
+    SQ_PATH*   np    = (SQ_PATH*)emalloc( sizeof(SQ_PATH) );
+    SQ_SEQUENCE* nentp = (SQ_SEQUENCE*)emalloc( sizeof(SQ_SEQUENCE) );
+    SQ_SEQUENCE* nendp = (SQ_SEQUENCE*)emalloc( sizeof(SQ_SEQUENCE) );
 
     assert( np );
     
-    memset( nentp, 0, sizeof( SC_SEQUENCE ) ); // clear content before using it
-    memset( nendp, 0, sizeof( SC_SEQUENCE ) ); // clear content before using it
+    memset( nentp, 0, sizeof( SQ_SEQUENCE ) ); // clear content before using it
+    memset( nendp, 0, sizeof( SQ_SEQUENCE ) ); // clear content before using it
 
     np->entp = nentp;
     np->entp->state = state;
@@ -422,10 +422,10 @@ SC_PATH* sq_create_new_path( SC_STATE* state )
  * \param id state unique identifier
  * \return pointer to the created state
 */
-SC_STATE* sq_create_state( int id )
+SQ_STATE* sq_create_state( int id )
 {
-    SC_STATE *state;
-    state = (SC_STATE*)emalloc( sizeof( SC_STATE ) );
+    SQ_STATE *state;
+    state = (SQ_STATE*)emalloc( sizeof( SQ_STATE ) );
     state->id   = id;
     state->opt  = 0;
     state->timeout = 0;
@@ -444,7 +444,7 @@ SC_STATE* sq_create_state( int id )
  * \param entp new entry point 
  * \return pointer to modified path
  */
-SC_PATH *sq_add_entry_point( SC_PATH *path, SC_PATH* entp )
+SQ_PATH *sq_add_entry_point( SQ_PATH *path, SQ_PATH* entp )
 {
     return path;
 } // sq_add_entry_point
@@ -462,10 +462,10 @@ SC_PATH *sq_add_entry_point( SC_PATH *path, SC_PATH* entp )
 * 
 * @return Null (result shoul not be used anywhere, type declared for compatibility with grammar).
 */
-SC_PATH *sq_define_new_state( SYMBOL *st_name )
+SQ_PATH *sq_define_new_state( SYMBOL *st_name )
 {
     SYMBOL  *sym; //!< pointer to the new symbol
-    //SC_PATH *np;  //!< pointer to new path
+    //SQ_PATH *np;  //!< pointer to new path
     if ( (sym = sq_sym_lookup( (char*)st_name )) )
     {
         // symbol already exist, return pointer to its path
@@ -476,5 +476,5 @@ SC_PATH *sq_define_new_state( SYMBOL *st_name )
         D2( printf( "Created new state id, name %s, id %d\n", (char*)st_name, sym->id ) );
         assert( sym );
     }
-	return (SC_PATH*) 0; // for syntax compatibility with the parser, result should not be used anywere
+	return (SQ_PATH*) 0; // for syntax compatibility with the parser, result should not be used anywere
 } // sq_define_new_state
